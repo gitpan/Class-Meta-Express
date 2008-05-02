@@ -1,12 +1,12 @@
 package Class::Meta::Express;
 
-# $Id: Express.pm 3105 2006-08-19 01:26:11Z theory $
+# $Id: Express.pm 3690 2008-05-02 02:11:45Z david $
 
 use strict;
 use vars qw($VERSION);
 use Class::Meta;
 
-$VERSION = '0.04';
+$VERSION = '0.05';
 
 my %meta_for;
 
@@ -51,7 +51,7 @@ sub has {
     unshift @_, $meta, 'name';
     splice @_, 3, 1, %{ $_[3] } if ref $_[3] eq 'HASH';
     splice @_, 3, 0, type => $def_type if $def_type;
-    goto $meta->can('add_attribute');
+    goto &{ $meta->can('add_attribute') };
 }
 
 sub method {
@@ -66,7 +66,7 @@ sub build {
 
     # Build the class.
     unshift @_, $meta;
-    goto $meta->can('build');
+    goto &{ $meta->can('build') };
 }
 
 sub _meth {
@@ -80,7 +80,7 @@ sub _meth {
             splice @_, 3, 1, %{ $_[3] } if $ref eq 'HASH';
         }
     }
-    goto $meta->can($method);
+    goto &{ $meta->can($method) };
 }
 
 sub _unimport {
@@ -464,7 +464,7 @@ reference:
 =head3 class
 
   class {
-      # Declare function.
+      # Declare class.
   }
 
 Yes, the C<class> keyword is secretly a function. It takes a single argument,
@@ -478,7 +478,7 @@ C<meta>.
 
   build;
 
-This function is a deprecated holdover from before version 0.04. It used to be
+This function is a deprecated holdover from before version 0.05. It used to be
 that there was no C<class> keyword and you had to just call the rest of the
 above functions and then call C<build> when you're done. But who liked
 I<that>? It was actually a bitter pill among all this sweet, sweet sugar. But
