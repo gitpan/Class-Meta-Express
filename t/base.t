@@ -1,11 +1,12 @@
 #!/usr/bin/perl -w
 
-# $Id: base.t 3105 2006-08-19 01:26:11Z david $
+# $Id: base.t 3846 2008-05-08 00:54:56Z david $
 
 use strict;
-use Test::More tests => 68;
+use Test::More tests => 94;
 use Carp;
-BEGIN { $SIG{__DIE__} = \&confess };
+use File::Spec;
+my $fn = File::Spec->catfile('t', 'base.t');
 
 ##############################################################################
 # Test basic functionality.
@@ -312,3 +313,89 @@ ok $meta = +My::TestSubExpress->my_class, 'Get the SubExpress meta object';
 ok my $attr = $meta->attributes('foo'), 'Get the "foo" attribute';
 is $attr->type, 'string', 'Its type should be "string"';
 
+##############################################################################
+# Test no meta.
+NOMETA: {
+    package My::NoMEta;
+    use Test::More;
+
+    BEGIN {
+        use_ok 'Class::Meta::Express' or die;
+        use_ok 'Class::Meta::Types::String';
+    }
+
+    class {
+        ctor   new  => ();
+        has    foo  => ( type => 'scalar' );
+    };
+}
+
+ok my $nom = My::NoMEta->new, 'Construct My::NoMeta object';
+ok $meta = +My::NoMEta->my_class, 'Get the NoMEta meta object';
+is $meta->key, 'no_meta', 'Its key should be "no_meta"';
+
+##############################################################################
+# Make sure default is inherited when no meta.
+# INHERITNOMETA: {
+#     package My::NoMetaInherit;
+#     use base 'My::TestDefault';
+#     use Test::More;
+#     BEGIN { use_ok 'Class::Meta::Express' or die }
+
+#     class {
+#         has 'zoz';
+#     }
+# }
+
+# ok $meta = My::NoMetaInherit->my_class, 'Get the NoMetaInherit object';
+# is $meta->key, 'no_meta_inherit', 'Its key should be "no_meta_inherit"';
+# ok $attr = $meta->attributes('zoz'), 'Get the "zoz" attribute object';
+# is $attr->type, 'string', 'It should be a string';
+
+##############################################################################
+# Test view, just to be sure.
+VIEW: {
+    package My::View;
+    use Test::More;
+
+    BEGIN {
+        use_ok 'Class::Meta::Express' or die;
+        use_ok 'Class::Meta::Types::String';
+    }
+
+    class {
+        meta view      => ( default_type => 'string' );
+        ctor new       => ();
+        has  public    => ( view => Class::Meta::PUBLIC );
+        has  private   => ( view => Class::Meta::PRIVATE );
+        has  trusted   => ( view => Class::Meta::TRUSTED );
+        has  protected => ( view => Class::Meta::PROTECTED );
+    };
+
+    ok my $view = My::View->new, 'Create new private view object';
+    is undef, $view->public,     'Should be able to access public';
+    is undef, $view->private,    'Should be able to access private';
+    is undef, $view->trusted,    'Should be able to access trusted';
+    is undef, $view->protected,  'Should be able to access protected';
+}
+
+ok my $view = My::View->new, 'Create new public view object';
+is undef, $view->public,     'Should be able to access public';
+eval { $view->private };
+chk( 'private exception', qr/private is a private attribute of My::View/);
+eval { $view->trusted };
+chk( 'trusted exception', qr/trusted is a trusted attribute of My::View/);
+eval { $view->protected };
+chk( 'protected exception', qr/protected is a protected attribute of My::View/);
+
+sub chk {
+    my ($name, $qr) = @_;
+    # Catch the exception.
+    ok( my $err = $@, "Caught $name error" );
+    # Check its message.
+    like( $err, $qr, "Correct error" );
+    # Make sure it refers to this file.
+    like( $err, qr/(?:at\s+\Q$fn\E|\Q$fn\E\s+at)\s+line/, 'Correct context' );
+    # Make sure it doesn't refer to other Class::Meta files.
+    unlike( $err, qr|lib/Class/Meta|, 'Not incorrect context')
+}

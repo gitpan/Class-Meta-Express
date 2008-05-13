@@ -1,4 +1,4 @@
-Class/Meta/Express version 0.05
+Class/Meta/Express version 0.10
 ===============================
 
 This module provides an interface to concisely yet expressively create classes
@@ -28,7 +28,7 @@ DEPENDENCIES
 
 COPYRIGHT AND LICENCE
 
-Copyright (c) 2006 Kineticode, Inc. All Rights Reserved.
+Copyright (c) 2006-2008 Kineticode, Inc. Some Rights Reserved.
 
 This module is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
