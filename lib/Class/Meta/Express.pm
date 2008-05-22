@@ -1,12 +1,12 @@
 package Class::Meta::Express;
 
-# $Id: Express.pm 3881 2008-05-13 03:41:33Z david $
+# $Id: Express.pm 3884 2008-05-13 03:43:13Z david $
 
 use strict;
 use vars qw($VERSION);
 use Class::Meta '0.60';
 
-$VERSION = '0.10';
+$VERSION = '0.11';
 
 my %meta_for;
 

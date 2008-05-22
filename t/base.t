@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: base.t 3846 2008-05-08 00:54:56Z david $
+# $Id: base.t 3938 2008-05-22 03:11:50Z david $
 
 use strict;
 use Test::More tests => 94;
@@ -394,8 +394,11 @@ sub chk {
     ok( my $err = $@, "Caught $name error" );
     # Check its message.
     like( $err, $qr, "Correct error" );
-    # Make sure it refers to this file.
-    like( $err, qr/(?:at\s+\Q$fn\E|\Q$fn\E\s+at)\s+line/, 'Correct context' );
-    # Make sure it doesn't refer to other Class::Meta files.
-    unlike( $err, qr|lib/Class/Meta|, 'Not incorrect context')
+    SKIP: {
+        skip 'Older Carp lacks @CARP_NOT support', 2 unless $] >= 5.008;
+        # Make sure it refers to this file.
+        like( $err, qr/(?:at\s+\Q$fn\E|\Q$fn\E\s+at)\s+line/, 'Correct context' );
+        # Make sure it doesn't refer to other Class::Meta files.
+        unlike( $err, qr|lib/Class/Meta|, 'Not incorrect context')
+    }
 }
