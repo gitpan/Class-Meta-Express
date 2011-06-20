@@ -17,11 +17,11 @@ name: Class-Meta-Express
 provides:
   Class::Meta::Express:
     file: lib/Class/Meta/Express.pm
-    version: 0.12
+    version: 0.13
 recommends:
   Test::Pod: 1.41
 requires:
   Class::Meta: 0.60
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.12
+version: 0.13

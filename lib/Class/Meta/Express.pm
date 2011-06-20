@@ -4,7 +4,7 @@ use strict;
 use vars qw($VERSION);
 use Class::Meta '0.60';
 
-$VERSION = '0.12';
+$VERSION = '0.13';
 
 my %meta_for;
 
@@ -749,9 +749,6 @@ contribute!
 Please file bug reports via L<GitHub
 Issues|http://github.com/theory/class-meta-express/issues/> or by sending mail to
 L<bug-Class-Meta-Express.cpan.org|mailto:bug-Class-Meta-Express.cpan.org>.
-
-Patches against Class::Meta-Express are welcome. Please send bug reports to
-<bug-class-meta-express@rt.cpan.org>.
 
 =head1 Author
 
