@@ -1,12 +1,10 @@
 package Class::Meta::Express;
 
-# $Id: Express.pm 3884 2008-05-13 03:43:13Z david $
-
 use strict;
 use vars qw($VERSION);
 use Class::Meta '0.60';
 
-$VERSION = '0.11';
+$VERSION = '0.12';
 
 my %meta_for;
 
@@ -142,17 +140,6 @@ sub _export {
 __END__
 
 ##############################################################################
-
-=begin comment
-
-Fake-out Module::Build. Delete if it ever changes to support =head1 headers
-other than all uppercase.
-
-=head1 NAME
-
-Class::Meta::Express - Concise, expressive creation of Class::Meta classes
-
-=end comment
 
 =head1 Name
 
@@ -755,29 +742,24 @@ method that's already installed in a module.
 
 =head1 Support
 
-This module is stored in an open repository at the following address:
+This module is stored in an open L<GitHub
+repository|http://github.com/theory/class-meta-express/>. Feel free to fork and
+contribute!
 
-L<https://svn.kineticode.com/Class-Meta-Express/trunk/>
+Please file bug reports via L<GitHub
+Issues|http://github.com/theory/class-meta-express/issues/> or by sending mail to
+L<bug-Class-Meta-Express.cpan.org|mailto:bug-Class-Meta-Express.cpan.org>.
 
-Patches against Class::Meta::Express are welcome. Please send bug reports to
+Patches against Class::Meta-Express are welcome. Please send bug reports to
 <bug-class-meta-express@rt.cpan.org>.
 
 =head1 Author
 
-=begin comment
-
-Fake-out Module::Build. Delete if it ever changes to support =head1 headers
-other than all uppercase.
-
-=head1 AUTHOR
-
-=end comment
-
-David Wheeler <david@kineticode.com>
+David E. Wheeler <david@justatheory.com>
 
 =head1 Copyright and License
 
-Copyright (c) 2006-2008 Kineticode, Inc. Some Rights Reserved.
+Copyright (c) 2006-2011 David E. Wheeler Some Rights Reserved.
 
 This module is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.

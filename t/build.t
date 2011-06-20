@@ -1,7 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: build.t 3373 2008-02-05 00:17:33Z david $
-
 use strict;
 use Test::More tests => 67;
 use Carp;
